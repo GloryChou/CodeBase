@@ -15,7 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 */
 public class Configuration implements ServletContextListener {
 	private final static String FILEPAHT = "conf.properties";	// 配置文件路径
-	public static Map<String,String> confmap;					// 配置读取后存储在Map中
+	public static Map<String,String> confmap;			// 配置读取后存储在Map中
 
 	/****** ServletContext生命周期开始时执行方法 ******/
 	public void contextInitialized(ServletContextEvent event) {
