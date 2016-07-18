@@ -1,14 +1,14 @@
-// ÈÕÆÚ¸ñÊ½»¯º¯Êı
+// æ—¥æœŸæ ¼å¼åŒ–å‡½æ•°
 Date.prototype.Format = function(fmt)
 {
 	var o = {
-		"M+" : this.getMonth()+1,                 //ÔÂ·İ
-		"d+" : this.getDate(),                    //ÈÕ
-		"h+" : this.getHours(),                   //Ğ¡Ê±  
-		"m+" : this.getMinutes(),                 //·Ö
-		"s+" : this.getSeconds(),                 //Ãë
-		"q+" : Math.floor((this.getMonth()+3)/3), //¼¾¶È
-		"S"  : this.getMilliseconds()             //ºÁÃë
+		"M+" : this.getMonth()+1,                 //æœˆä»½
+		"d+" : this.getDate(),                    //æ—¥
+		"h+" : this.getHours(),                   //å°æ—¶  
+		"m+" : this.getMinutes(),                 //åˆ†
+		"s+" : this.getSeconds(),                 //ç§’
+		"q+" : Math.floor((this.getMonth()+3)/3), //å­£åº¦
+		"S"  : this.getMilliseconds()             //æ¯«ç§’
 	};
 	if(/(y+)/.test(fmt)) {
 		fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
@@ -21,24 +21,24 @@ Date.prototype.Format = function(fmt)
 	return fmt;   
 }
 
-// ¼ÆËãÊ±¼ä²î
+// è®¡ç®—æ—¶é—´å·®
 function dateDiff(date1, date2)
 {
-	// ´«½øÀ´µÄÊ±¼ä¸ñÊ½Îª£ºyyyyMMdd
+	// ä¼ è¿›æ¥çš„æ—¶é—´æ ¼å¼ä¸ºï¼šyyyyMMdd
 	date1 = date1.substr(0,4) + "/" + date1.substr(4,2) + "/" + date1.substr(6,2);
 	date2 = date2.substr(0,4) + "/" + date2.substr(4,2) + "/" + date2.substr(6,2);
 
-	// ×ª»»ÎªÊ±¼ä´Á
+	// è½¬æ¢ä¸ºæ—¶é—´æˆ³
 	var dt1 = new Date(Date.parse(date1));
-    var dt2 = new Date(Date.parse(date2));
+	var dt2 = new Date(Date.parse(date2));
     
-    try
-    {
-        return Math.abs(Math.round((dt2.getTime() - dt1.getTime()) / (1000*60*60*24)));
-    }
-    catch (e)
-    {
- 	    alert("¼ÆËãÊ±¼ä²îÊ±·¢ÉúÁË´íÎó£¡");
-        return -1;
-    }
+	try
+	{
+		return Math.abs(Math.round((dt2.getTime() - dt1.getTime()) / (1000*60*60*24)));
+	}
+	catch (e)
+	{
+		alert("è®¡ç®—æ—¶é—´å·®æ—¶å‘ç”Ÿäº†é”™è¯¯ï¼");
+		return -1;
+	}
 }
