@@ -17,75 +17,75 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class ThreadPool {
-	ExecutorService threadPool = null;
-	
-	public void newCachedThreadPool() {
-		threadPool = Executors.newCachedThreadPool();
-		for(int i = 0; i < 10; i++) {
-			final int index = i;
-			try{
-				Thread.sleep(index);
-			} catch(InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			threadPool.execute(new Runnable() {
-				
-				@Override
-				public void run() {
-					System.out.println(index);
-				}
-			});
-		}
-	}
-	
-	public void newFixedThreadPool() {
-		threadPool = Executors.newFixedThreadPool(3);
-		for(int i = 0; i < 10; i++) {
-			final int index = i;
-			threadPool.execute(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						System.out.println(index);
-						Thread.sleep(2000);
-					} catch(InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-				
-		}
-	}
-	
-	public void newScheduledThreadPool() {
-		ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
-		scheduledThreadPool.schedule(new Runnable() {
-			
-			@Override
-			public void run() {
-				System.out.println("delay 3 seconds");
-			}
-		}, 3, TimeUnit.SECONDS);
-	}
-	
-	public void newSingleThreadPool() {
-		threadPool = Executors.newSingleThreadExecutor();
-		for(int i = 0; i < 10; i++) {
-			final int index = i;
-			threadPool.execute(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						System.out.println(index);
-						Thread.sleep(2000);
-					} catch(InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
+    ExecutorService threadPool = null;
+    
+    public void newCachedThreadPool() {
+        threadPool = Executors.newCachedThreadPool();
+        for(int i = 0; i < 10; i++) {
+            final int index = i;
+            try{
+                Thread.sleep(index);
+            } catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+            
+            threadPool.execute(new Runnable() {
+                
+                @Override
+                public void run() {
+                    System.out.println(index);
+                }
+            });
+        }
+    }
+    
+    public void newFixedThreadPool() {
+        threadPool = Executors.newFixedThreadPool(3);
+        for(int i = 0; i < 10; i++) {
+            final int index = i;
+            threadPool.execute(new Runnable() {
+                
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(index);
+                        Thread.sleep(2000);
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+                
+        }
+    }
+    
+    public void newScheduledThreadPool() {
+        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
+        scheduledThreadPool.schedule(new Runnable() {
+            
+            @Override
+            public void run() {
+                System.out.println("delay 3 seconds");
+            }
+        }, 3, TimeUnit.SECONDS);
+    }
+    
+    public void newSingleThreadPool() {
+        threadPool = Executors.newSingleThreadExecutor();
+        for(int i = 0; i < 10; i++) {
+            final int index = i;
+            threadPool.execute(new Runnable() {
+                
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(index);
+                        Thread.sleep(2000);
+                    } catch(InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
 }
