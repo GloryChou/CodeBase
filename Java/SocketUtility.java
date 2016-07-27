@@ -26,18 +26,18 @@ public class SocketUtility{
         try {
             Socket socket = new Socket(SERVERIP, SERVERPORT);
             PrintWriter pw = new PrintWriter(socket.getOutputStream());
-            BufferedReader bfout = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader brin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
             // Socket传输报文
             pw.println(inPacket);
             pw.flush();
             
             // 获取返回结果
-            outpacket = bfout.readLine();
+            outpacket = brin.readLine();
             
             // 关闭输入、输出流和Socket
             pw.close();
-            bfout.close();
+            brin.close();
             socket.close();
         } catch (UnknownHostException e) {
             e.printStackTrace();
