@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -10,45 +11,51 @@ import java.net.UnknownHostException;
 * Scenario: ALL
 * @author: glory chou
 */
-public class SocketUtility{
+public class SocketUtils {
 	// 字符流读取长度
 	final private int STREAMLEN = 1024; 
-
-	private final String SERVERIP = "198.98.20.9"; // ip
-	private final int SERVERPORT = 6188; // port
 	
-	/**
-	 * 
-	 * @param inPacket 需要Socket传输的报文
-	 * @return Socket服务器端返回的结果
-	 */
-	public String socketAccess(String inPacket) {
+	private String serverip;
+	private int serverport;
+	
+	public String getServerip() {
+		return serverip;
+	}
+	public void setServerip(String serverip) {
+		this.serverip = serverip;
+	}
+	public int getServerport() {
+		return serverport;
+	}
+	public void setServerport(int serverport) {
+		this.serverport = serverport;
+	}
+	
+	// Socket访问
+	public String accessSocket(String inPacket) {
 		// 返回结果
-		String outpacket = "";
+		StringBuilder outPacket = new StringBuilder("");
+		
 		try {
-			Socket socket = new Socket(SERVERIP, SERVERPORT);
-			PrintWriter pw = new PrintWriter(socket.getOutputStream());
-			BufferedReader brin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			// 创建socket对象
+			Socket socket = new Socket(this.serverip, this.serverport);
+			// 创建输入、输出流对象
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "GBK"));
+			BufferedReader brin = new BufferedReader(new InputStreamReader(socket.getInputStream(), "GBK"));
 			
-			// Socket传输报文
-			pw.println(inPacket);
+			// 传输报文
+			pw.println(new String(inPacket.getBytes("GBK"), "GBK"));
 			pw.flush();
-
-			// 临时存储区
-			char tmp[] = new char[this.STREAMLEN];
-			int len;
 			
-			while(true) {
-				len = brin.read(tmp , 0, this.STREAMLEN);
-				if(len != -1)
-				{
-					outpacket.append(new String(tmp, 0, len));
-				}
-				// 读到输入流结尾或者临时存储区读不满则退出此次数据读取
-				if(len == -1 || len < this.STREAMLEN) break;
+			// 获取返回报文
+			char tmp[] = new char[this.STREAMLEN]; // 临时存储区
+			int len;
+			// 读到输入流结尾或者临时存储区读不满则退出此次数据读取
+			while((len = brin.read(tmp, 0, this.STREAMLEN)) > 0) {
+				outPacket.append(new String(tmp, 0, len));
 			}
 			
-			// 关闭输入、输出流和Socket
+			// 关闭输入、输出流以及socket连接
 			pw.close();
 			brin.close();
 			socket.close();
@@ -58,6 +65,6 @@ public class SocketUtility{
 			e.printStackTrace();
 		}
 		
-		return outpacket;
+		return outPacket.toString();
 	}
 }
