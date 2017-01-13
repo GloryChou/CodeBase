@@ -38,31 +38,39 @@ public class SocketUtils {
 		
 		try {
 			// 创建socket对象
-			Socket socket = new Socket(this.serverip, this.serverport);
+			socket = new Socket(this.serverip, this.serverport);
 			// 创建输入、输出流对象
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "GBK"));
-			BufferedReader brin = new BufferedReader(new InputStreamReader(socket.getInputStream(), "GBK"));
+			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "GBK"));
+			brin = new BufferedReader(new InputStreamReader(socket.getInputStream(), "GBK"));
 			
 			// 传输报文
 			pw.println(new String(inPacket.getBytes("GBK"), "GBK"));
 			pw.flush();
 			
 			// 获取返回报文
-			char tmp[] = new char[this.STREAMLEN]; // 临时存储区
+			char tmp[] = new char[this.STREAMLEN];
 			int len;
-			// 读到输入流结尾或者临时存储区读不满则退出此次数据读取
 			while((len = brin.read(tmp, 0, this.STREAMLEN)) > 0) {
 				outPacket.append(new String(tmp, 0, len));
 			}
-			
-			// 关闭输入、输出流以及socket连接
-			pw.close();
-			brin.close();
-			socket.close();
 		} catch (UnknownHostException e) {
+			System.out.println("Socket访问主机出错！");
 			e.printStackTrace();
+			return null;
 		} catch (IOException e) {
+			System.out.println("Socket数据传输出错！");
 			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				// 关闭输入、输出流以及socket连接
+				pw.close();
+				brin.close();
+				socket.close();
+			} catch (IOException e) {
+				System.out.println("Socket输入输出流关闭时出错！");
+				e.printStackTrace();
+			}
 		}
 		
 		return outPacket.toString();
