@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- JDBC事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- Hibernate事务管理器（Hibernate3以上） -->
+	<!-- <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> -->
+	
+	<!-- JPA事务管理器 -->
+	<!-- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean> -->
+	
+	<!-- JTA事务管理器 -->
+	<!-- <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManagerName" value="java:/TransactionManager" />
+	</bean> -->
+	
+	<!-- 声明事务策略：默认事务管理器名叫“transactionManager” -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 声明事务通知器和事务切点：声明哪些Bean应该被通知 -->
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice" pointcut="execution(* per.zyf.service..*.*(..))" />
+	</aop:config>
+</beans>
