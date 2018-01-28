@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import per.zyf.dao.PersonDao;
 import per.zyf.entity.Person;
@@ -21,7 +19,6 @@ public class PersonServiceImpl implements PersonService {
     public void addPerson(Person person) {
         // 加入数据
         personDao.addPerson(person);
-        System.out.println("sd");
     }
 
     @Override

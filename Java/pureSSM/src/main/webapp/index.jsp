@@ -7,9 +7,9 @@
 <title>注册页面</title>  
 </head>  
 <body>  
-    <form action="addPerson.action" method="post">  
-        pname:<input type="text" name="pname"/><br/>  
-        page:<input type="text" name="page"/><br/>  
+    <form action="person/result" method="POST">  
+        <!-- pname:<input type="text" name="pname"/><br/>  
+        page:<input type="text" name="page"/><br/>   -->
         <input type="submit" value="添加"/><br/>  
     </form>  
 </body>  

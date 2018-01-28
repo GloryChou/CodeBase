@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- 声明切面 -->
+	<!-- 自动装配方式，需切面类标注@Aspect注解 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- aop:aspect方式  -->
+	<!-- <aop:config>
+		<aop:aspect id="controllerAspect" ref="controllerAspect">
+			<aop:pointcut id="controllerPointcut" expression="(execution(public * per.zyf.controller.*.*(..)))" />
+            <aop:around method="doAround" pointcut-ref="controllerPointcut" />
+		</aop:aspect>
+	</aop:config> -->
+	
+	<!-- aop:advisor通知器方式，通知器需实现相应的通知接口，可参考事务切面部分 -->
+</beans>
