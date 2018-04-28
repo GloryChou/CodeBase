@@ -1,4 +1,4 @@
-# Java线程间协作
+# Java线程间协作（一）
 
 ### 等待与通知：wait/notify
 
@@ -47,3 +47,72 @@ someObject.notify()的执行线程持有的相应对象的内部锁只有在noti
 #### notifyAll()
 Object.notify()所唤醒的仅是相应对象上的一个任意等待线程，所以这个唤醒的线程可能不是我们真正想要唤醒的那个线程。所以可以用Object.notifyAll()唤醒相应对象上的所有等待线程。
 
+### Thread.join()
+Thread.join()可以使当前线程等待目标线程结束之后才继续运行。
+
+##### Thread.join()使用范例：
+``` java
+public static void main(String[] args)
+ throws InterruptedException {
+	Thread t = new Thread(() -> {
+		// 实现run方法
+	});
+	t.start();
+    t.join();
+}
+```
+
+join()必须放在start()之后执行，因为join()的实现原理实际是：检测到目标线程未处于alive状态的时候会调用wait方法来暂停当前线程，直到目标线程终止。
+
+### Java条件变量
+
+**java.util.concurent.looks.Condition**接口可以作为wait/notify的替代品来实现等待/通知，它为解决**过早唤醒**问题提供了支持，并解决了Object.wait(long)不能区分其返回是否是由等待超时而导致的问题。
+> **过早唤醒：**当存在多个线程且这些线程的保护条件并不一致时，由于线程被唤醒具有随机性，这就会导致某些保护条件尚未成立的线程被唤醒，继而由于保护条件尚未成立该线程再次进入等待状态，白白浪费了上下文切换的开销。
+
+Condition接口定义的await、signal和signalAll分别相当于wait、notify和notifyAll。
+
+Condition实例必须通过显式锁实例的newCondition()方法来创建。
+
+wait/notify要求其执行线程持有这些方法所属对象的内部锁，类似地，Condition的await/signal也要求其执行线程持有该Condition实例的显式锁。
+
+##### Condition使用范例：
+``` java
+class ConditionUsage {
+	private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
+
+    public void aGuaredMethod()
+     throws InterruptedException {
+        lock.lock();
+        try {
+            while (保护条件) {
+                condition.await();
+            }
+
+            // 执行目标动作
+            // xxx
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void anNotificationMethod()
+     throws InterruptedException {
+        lock.lock();
+        try {
+            // 更新共享变量
+            // xxx
+
+            condition.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+##### Condition解决过早唤醒的问题
+同步对象内部维护多个Condition实例：cond1、cond2、......，用以区分保护条件不同的线程同步控制。
+
+##### Condition解决Object.wait(long)是否等待超时的问题
+Condition.awaitUntil(Date deadline)可以解决这一问题。其唯一参数deadline表示等待的最后期限，过了这个**时间点**就算等待超时。如果它调用返回false，就表示等待超时。当它返回值为true时，就表示进行的等待尚未达到最后期限，即此线程是被其他线程执行了signal/signalAll唤醒的。
