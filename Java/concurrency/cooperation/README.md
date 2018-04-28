@@ -115,4 +115,6 @@ class ConditionUsage {
 同步对象内部维护多个Condition实例：cond1、cond2、......，用以区分保护条件不同的线程同步控制。
 
 ##### Condition解决Object.wait(long)是否等待超时的问题
-Condition.awaitUntil(Date deadline)可以解决这一问题。其唯一参数deadline表示等待的最后期限，过了这个**时间点**就算等待超时。如果它调用返回false，就表示等待超时。当它返回值为true时，就表示进行的等待尚未达到最后期限，即此线程是被其他线程执行了signal/signalAll唤醒的。
+Object.wait(long)既无返回值也不会抛出异常，所以我们无法区分其返回是由其他线程通知了还是由于等待超时。
+
+Condition.awaitUntil(Date deadline)可以解决这一问题。其唯一参数deadline表示等待的最后期限，过了这个**时间点**就算等待超时。当它返回值为true时，就表示进行的等待尚未达到最后期限，即此线程是被其他线程执行了signal/signalAll唤醒的。如果它调用返回false，就表示是由等待超时引起的停止等待。
