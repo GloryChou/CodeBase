@@ -1,4 +1,4 @@
-# Java线程间协作（一）
+# Java线程间协作
 
 ### 等待与通知：wait/notify
 
