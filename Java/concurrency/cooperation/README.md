@@ -122,3 +122,50 @@ class ConditionUsage {
 Object.wait(long)既无返回值也不会抛出异常，所以我们无法区分其返回是由其他线程通知了还是由于等待超时。
 
 Condition.awaitUntil(Date deadline)可以解决这一问题。其唯一参数deadline表示等待的最后期限，过了这个**时间点**就算等待超时。当它返回值为true时，就表示进行的等待尚未达到最后期限，即此线程是被其他线程执行了signal/signalAll唤醒的。如果它调用返回false，就表示是由等待超时引起的停止等待。
+
+
+
+
+### 倒计时协调器：CountDownLatch
+
+CountDownLatch可以用来实现一个（或者多个）线程等待其他线程完成一组特定的操作之后才继续运行。这组特定的操作被称为**先决操作**。
+
+#### CountDownLatch实现原理
+
+CountDownLatch内部会维护一个用于表示未完成的先决操作数量的计数器。
+**CountDownLatch.countDown()**每被执行一次就会使相应实例的计数器值减1。
+**CountDownLatch.await()**相当于一个受保护的方法，其保护条件为“计数器值为0”，此时代表所有先决操作已执行完毕。
+
+当计数器值不为0时，CountDownLatch.await()的执行线程会被暂停，这些线程就被称为相应CountDownLatch上的等待线程。CountDownLatch.countDown()相当于一个通知方法，它会在计数器值达到0的时候唤醒实例上的所有等待线程。
+
+> **TIPS：**当计数器的值达到0之后，该计数器的值就不再发生变化。此时，调用CountDownLatch.countDown()并不会导致异常的抛出，并且后续执行CountDownLatch.await()的线程也不会被暂停。因此，CountDownLatch的使用时**一次性**的：一个CountDownLatch实例只能够实现一次等待和唤醒。
+
+##### CountDownLatch示例：
+``` java
+public class CountDownLatchExample {
+    private static final CountDownLatch latch = 
+     new CountDownLatch(4);
+    private static int data;
+
+    public static void main(String[] args)
+     throws InterruptedException {
+        Thread workerThread = new Thread(() -> {
+            for(int i = 0; i < 10; i++) {
+                data = i;
+                latch.countDown();
+                // 暂停一段时间
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+        });
+        workerThread.start();
+        latch.await();
+        System.out.println(
+         String.format("It's done. data=%d", data));
+    }
+}
+```
+改程序的输出总是如下：It's done. data=4
