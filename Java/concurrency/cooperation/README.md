@@ -168,7 +168,7 @@ public class CountDownLatchExample {
     }
 }
 ```
-改程序的输出总是如下：It's done. data=4
+该程序的输出总是如下：It's done. data=4
 
 
 
