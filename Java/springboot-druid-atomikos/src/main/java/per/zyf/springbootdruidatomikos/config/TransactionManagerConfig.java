@@ -62,6 +62,9 @@ public class TransactionManagerConfig {
         // 查询
         transactionAttributes.setProperty("select*", "PROPAGATION_REQUIRED,-Throwable,readOnly");
 
+        // 测试
+        transactionAttributes.setProperty("test*", "PROPAGATION_REQUIRED,-Throwable");
+
         transactionInterceptor.setTransactionAttributes(transactionAttributes);
         return transactionInterceptor;
     }
