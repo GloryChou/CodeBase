@@ -27,7 +27,7 @@ spring:
         - com.chint.springboot.atomikos.*.service.**
 
       schema1DB:
-        name: schema1
+        name: schema1DB
         url: jdbc:mysql://localhost/schema1
         username: root
         password: root
@@ -57,7 +57,7 @@ spring:
         useGlobalDataSourceStat: true
 
       schema2DB:
-        name: schema2
+        name: schema2DB
         url: jdbc:mysql://localhost/schema2
         username: root
         password: root

@@ -1,7 +1,7 @@
 package per.zyf.springbootdruidatomikos.dao.schema1;
 
 import org.springframework.stereotype.Repository;
-import per.zyf.springbootdruidatomikos.entity.UserEntity;
+import per.zyf.springbootdruidatomikos.entity.schema1.UserEntity;
 
 /**
  * @author glorychou

@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +21,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@MapperScan(basePackages = "per.zyf.per.zyf.springbootdruidatomikos.dao.schema1", sqlSessionTemplateRef = "schema1SqlSessionTemplate")
+@MapperScan(basePackages = "per.zyf.springbootdruidatomikos.dao.schema1", sqlSessionTemplateRef = "schema1SqlSessionTemplate")
 public class Schema1DataSourceConfig {
 
     /** DataSource **/
@@ -46,5 +47,12 @@ public class Schema1DataSourceConfig {
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapping/schema1/*.xml"));
         return bean.getObject();
+    }
+
+    @Bean(name = "schema1SqlSessionTemplate")
+    @Primary
+    public SqlSessionTemplate schema1SqlSessionTemplate(
+            @Qualifier("schema1SqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

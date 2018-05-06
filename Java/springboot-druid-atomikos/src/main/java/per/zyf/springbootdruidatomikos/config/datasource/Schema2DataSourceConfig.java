@@ -2,6 +2,7 @@ package per.zyf.springbootdruidatomikos.config.datasource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +18,7 @@ import java.util.Properties;
 
 
 @Configuration
-@MapperScan(basePackages = "per.zyf.per.zyf.springbootdruidatomikos.dao.schema2", sqlSessionTemplateRef = "schema2SqlSessionTemplate")
+@MapperScan(basePackages = "per.zyf.springbootdruidatomikos.dao.schema2", sqlSessionTemplateRef = "schema2SqlSessionTemplate")
 public class Schema2DataSourceConfig {
     @Bean(name = "schema2DataSource")
     @Autowired
@@ -33,12 +34,17 @@ public class Schema2DataSourceConfig {
 
     /** Mybatis SqlSession **/
     @Bean(name = "schema2SqlSessionFactory")
-    @Primary
     public SqlSessionFactory schema2SqlSessionFactory(@Qualifier("schema2DataSource") DataSource dataSource)
             throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapping/schema2/*.xml"));
         return bean.getObject();
+    }
+
+    @Bean(name = "schema2SqlSessionTemplate")
+    public SqlSessionTemplate schema1SqlSessionTemplate(
+            @Qualifier("schema2SqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }
