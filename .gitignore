@@ -4,4 +4,8 @@
 
 *.class
 target
+
+.classpath
+org.*
+.project
 .idea
