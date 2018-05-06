@@ -28,7 +28,7 @@ spring:
 
       schema1DB:
         name: schema1
-        url: jdbc:mysql://localhost/user
+        url: jdbc:mysql://localhost/schema1
         username: root
         password: root
         # 下面为连接池的补充设置，应用到上面所有数据源中
@@ -58,7 +58,7 @@ spring:
 
       schema2DB:
         name: schema2
-        url: jdbc:mysql://localhost/friend
+        url: jdbc:mysql://localhost/schema2
         username: root
         password: root
         # 下面为连接池的补充设置，应用到上面所有数据源中

@@ -66,7 +66,9 @@ public class TransactionManagerConfig {
         return transactionInterceptor;
     }
 
-    // 代理到ServiceImpl的Bean
+    /**
+     * 代理到ServiceImpl的Bean
+      */
     @Bean
     public BeanNameAutoProxyCreator transactionAutoProxy() {
         BeanNameAutoProxyCreator transactionAutoProxy = new BeanNameAutoProxyCreator();
