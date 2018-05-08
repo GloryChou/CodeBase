@@ -183,3 +183,33 @@ CyclicBarrier内部维护了一个显示锁，这使得其总是可以在所有�
 除最后一个线程外的任何参与方执行CyclicBarrier.await()都会导致该线程被暂停。最后一个线程执行CyclicBarrier.await()会使得使用相应CyclicBarrier实例的其他所有参与方被唤醒。
 
 CyclicBarrier内部使用了一个条件变量trip来实现等待/通知。CyclicBarrier内部实现了使用分代（Generation）的概念用于表示CyclicBarrier实例是可以重复使用的。除最后一个线程外的任何一个参与方都相当于一个等待线程，这些线程所使用的保护条件是“当前分代内，尚未执行await方法的参与方个数（parties）为0”。当前分代的初始状态是parties，其初始值等于参与方总数（通过构造器中的parties参数指定）。CyclicBarrier.await()每被执行一次会使相应实例的parties值减少1。最后一个线程相当于通知线程，他执行CyclicBarrier.await()会使相应实例的parties值变为0，此时该线程会先执行barrierAction.run()，然后 再执行trip.signalAll()来唤醒所有的等待线程。接着，开始下一个分代，即使得parties的值又重新恢复为其初始值。
+
+
+
+### 阻塞队列
+从传输通道中存入数据或取出数据时，相应的线程可能因为传输通道中没有数据或者其存储空间已满而挂起，这种传输通道的运作方式称为**阻塞式**。
+
+一般而言，一个方法或者操作如果能够导致其执行线程被挂起，那么我们就称相应的的方法/操作为**阻塞方法**或者**阻塞操作**。
+
+常见的阻塞方法包括：InputStream.read()、ReentrantLock.lock()、申请内部锁等。
+
+JDK1.5中引入的接口java.util.concurrent.BlockingQueue定义了一种线程安全的队列——阻塞队列。
+
+阻塞队列按照其存储空间的容量是否受限制来划分，可分为**有界队列（Bounded Queue）**和**无界队列（Unbounded Queue）**。有界队列的存储容量是由应用程序指定的，无解队列的最大存储容量为Integer.MAX_VALUE（$2^{31} - 1$）。
+
+往队列中存入一个元素的操作被称为**put操作**，从队列中取出一个元素的操作被称为**take操作**。
+
+#### ArrayBlockingQueue
+ArrayBlockingQueue内部使用一个数组作为其存储空间，而数组的存储空间是预先分配的，因此ArrayBlockingQueue的put/take操作本身并不会增加垃圾回收的负担。ArrayBlockingQueue的缺点是其内部在实现put/take操作的时候使用的是同一个显示锁，从而导致锁的高争用，进而导致较多的上下文切换。
+
+#### LinkedBlockingQueue
+LinkedBlockingQueue既能实现无界队列，也能实现有界队列。LinkedBlockingQueue的其中一个构造函数允许我们创建队列的时候指定队列容量。LinkedBlockingQueue的优点是其内部在实现put/take操作的时候分别使用了两个显示锁（putLock/takeLock），这降低了锁的争用。LinkedBlockingQueue的内部存储空间是一个链表，而链表节点所需的存储空间是动态分配的，因此LinkedBlockingQueue的缺点是它可能增加垃圾回收的负担。此外，由于put/take操作使用的是两个锁，LinkedBlockingQueue维护其队列的当前长度（Size）时无法使用一个普通的int型变量，而是使用了原子变量AtomicInteger，这也会导致额外的开销。
+
+#### SynchronousQueue
+SynchronousQueue可以看成一种特殊的有界队列。其内部并不维护用户存储队列元素的存储空间。
+
+### 信号量：Semaphore
+
+### 管道
+
+### 双缓冲：Exchanger
