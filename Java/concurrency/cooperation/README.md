@@ -223,7 +223,14 @@ JDK1.5中引入的标准类库java.util.concurrent.Semaphore可以用来实现�
 
 
 
-### 管道
+### 管道：PipedOutputStream/PipedInputStream
+PipedOutputStream/PipedInputStream分别是OutputStream/InputStream的一个子类，它们可以用来实现线程间的直接输出和输入。
+
+所谓的“直接”是指从应用代码的角度来看，一个线程的输出可作为另外一个线程的输入，而不必借用文件、数据库、网络连接等其他数据交换中介。
+
+PipedOutputStream相当于生产者，其生产的产品是字节形式的数据；PipedInputStream相当于消费者，内部使用byte型数组维护了一个循环缓冲区（Cirular Buffer），这个缓冲区相当于传输通道。
+
+在PipedOutputStream/PipedInputStream进行输入、输出操作前，PipedOutputStream实例和PipedInputStream实例需要建立起关联（Connect）。两者之间可以通过调用各自实例的connect方法实现关联，也可以通过在创建相应实例的时候将对方的实例指定为自己的构造器参数来实现。
 
 
 
