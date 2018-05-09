@@ -208,8 +208,23 @@ LinkedBlockingQueue既能实现无界队列，也能实现有界队列。LinkedB
 #### SynchronousQueue
 SynchronousQueue可以看成一种特殊的有界队列。其内部并不维护用户存储队列元素的存储空间。
 
+
+
 ### 信号量：Semaphore
+信号量(Semaphore)，有时被称为信号灯，是在多线程环境下使用的一种设施，是可以用来保证两个或多个关键代码段不被并发调用。在进入一个关键代码段之前，线程必须获取一个信号量；一旦该关键代码段完成了，那么该线程必须释放信号量。其它想进入该关键代码段的线程必须等待直到第一个线程释放信号量。
+
+JDK1.5中引入的标准类库java.util.concurrent.Semaphore可以用来实现信号量控制。Semaphore.acquire()/release()分别用于申请信号量和释放信号量。
+
+>**TIPS：**
+> + acquire()和release()总是配对使用；
+> + release()调用总是应该放在一个finally块中，以避免程序执行发生异常时当前申请的信号量无法释放；
+> + 创建Semaphore实例时，如果构造器中参数permits值为1，那么所创建的Semaphore实例相当于一个互斥锁。与其他互斥锁不同的是：由于一个线程可以在未执行过Semaphore.acquire()的情况下执行相应的Semaphore.release()，因此这种互斥锁允许一个线程释放另外一个线程锁持有的锁；
+> + 默认情况下，Semaphore采用的是非公平性调度策略。
+
+
 
 ### 管道
+
+
 
 ### 双缓冲：Exchanger
