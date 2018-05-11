@@ -1,4 +1,4 @@
-package cooperation;
+package cooperation.condition;
 
 import java.util.Date;
 import java.util.Random;

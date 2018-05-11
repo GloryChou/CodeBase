@@ -1,4 +1,4 @@
-package cooperation;
+package cooperation.waitandnotify;
 
 import jdk.nashorn.internal.runtime.Debug;
 

@@ -1,4 +1,4 @@
-package cooperation;
+package cooperation.waitandnotify;
 
 import java.util.Random;
 
