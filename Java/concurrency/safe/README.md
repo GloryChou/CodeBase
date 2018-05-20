@@ -68,6 +68,7 @@ public abstract class XAbstractTask implements Runnable {
 }
 ```
 + **ThreadLocal可能导致内存泄漏、伪内存泄漏：**在WEB应用中使用ThreadLocal极易导致内存泄漏、伪内存泄漏。这与ThreadLocal的内部实现机制有关。
+> **解决方案：**需要确保每个任务的处理逻辑被执行前相应的线程特有对象不受前一个任务的影响，我们可以通过在任务处理逻辑开始前为线程局部变量重新关联一个线程特有对象或者重置线程特有对象的状态来实现。
 
 
 
