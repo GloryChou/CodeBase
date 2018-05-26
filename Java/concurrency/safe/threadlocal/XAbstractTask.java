@@ -1,4 +1,4 @@
-package safe;
+package safe.threadlocal;
 
 import java.util.HashMap;
 

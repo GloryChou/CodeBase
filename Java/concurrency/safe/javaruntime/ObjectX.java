@@ -1,4 +1,4 @@
-package safe;
+package safe.javaruntime;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +20,7 @@ public class ObjectX implements Serializable {
 
     public void greet(String message) {
         String msg = toString() + ":" + message;
-        Debug.info(msg);
+        System.out.println(msg);
     }
 
     @Override
