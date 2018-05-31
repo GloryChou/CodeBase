@@ -4,6 +4,7 @@
 
 *.class
 target
+bin
 
 .classpath
 org.*
