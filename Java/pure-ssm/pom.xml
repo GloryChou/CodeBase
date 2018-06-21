@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 
 	<build>
-		<finalName>pureSSM</finalName>
+		<finalName>pure-ssm</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
