@@ -1,18 +1,18 @@
 package concurrency.cooperation.semaphore;
 
 /**
- * @Author: Finance Group
- * @Date: 2018/11/20 10:03
+ * @author: Kyle
+ * @date: 2018/11/20 10:03
  */
 public class MyThread extends Thread {
-    private MoreToOneService moreToOneService;
+    private MultiEnterMultiDealMultiOutService multiEnterMultiDealMultiOutService;
 
-    public MyThread(MoreToOneService moreToOneService) {
-        this.moreToOneService = moreToOneService;
+    public MyThread(MultiEnterMultiDealMultiOutService multiEnterMultiDealMultiOutService) {
+        this.multiEnterMultiDealMultiOutService = multiEnterMultiDealMultiOutService;
     }
 
     @Override
     public void run() {
-        moreToOneService.sayHello();
+        multiEnterMultiDealMultiOutService.sayHello();
     }
 }
