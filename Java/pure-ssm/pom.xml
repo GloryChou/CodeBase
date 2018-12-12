@@ -2,11 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>per.zyf</groupId>
-	<artifactId>puremvn</artifactId>
+	<artifactId>pure-ssm</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>puremvn Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<name>pure-ssm</name>
 
 	<build>
 		<finalName>pure-ssm</finalName>
@@ -36,7 +35,7 @@
 
 	<!-- 初始化框架的版本号 -->
 	<properties>
-		<spring.version>4.3.3.RELEASE</spring.version>
+		<spring.version>4.3.18.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>
