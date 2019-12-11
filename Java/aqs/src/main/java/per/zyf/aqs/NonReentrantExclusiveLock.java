@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * @author: Kyle
  */
-public class NonReentrantLock implements Lock, Serializable {
+public class NonReentrantExclusiveLock implements Lock, Serializable {
 
     /**
      * 创建自定义AQS
